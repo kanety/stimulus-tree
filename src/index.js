@@ -17,10 +17,6 @@ export default class extends Controller {
     return Array.from(this.element.querySelectorAll('li'));
   }
 
-  get icons() {
-    return Array.from(this.element.querySelectorAll('a[href="#icon"]'));
-  }
-
   get openedNodes() {
     return Array.from(this.element.querySelectorAll('li:not(.st-tree__node--closed)'));
   }
