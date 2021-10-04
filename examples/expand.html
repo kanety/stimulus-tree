@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <script type="importmap">
+    {
+      "imports": {
+        "@hotwired/stimulus": "/node_modules/@hotwired/stimulus/dist/stimulus.js",
+        "@kanety/stimulus-static-actions": "/node_modules/@kanety/stimulus-static-actions/dist/index.module.js",
+        "@kanety/stimulus-tree": "/dist/index.module.js"
+      }
+    }
+  </script>
+  <script type="module">
+    import { Application, Controller } from '@hotwired/stimulus';
+    import '@kanety/stimulus-static-actions';
+    import TreeController from '@kanety/stimulus-tree';
+    const application = Application.start();
+    application.register('tree', TreeController);
+  </script>
+  <link rel="stylesheet" href="/dist/index.css"></link>
+</head>
+<body>
+  <h1>Expand</h1>
+  <button type="button" value="expand">Expand</button>
+  <button type="button" value="collapse">Collapse</button>
+  <ul class="st-tree" data-controller="tree">
+    <li data-node-id="1">
+      <a href="#icon" class="st-tree__icon"></a>
+      <span>1</span>
+      <ul>
+        <li data-node-id="1.1">
+          <a href="#icon" class="st-tree__icon"></a>
+          <span>1.1</span>
+          <ul>
+            <li data-node-id="1.1.1">
+              <a href="#icon" class="st-tree__icon"></a>
+              <span>1.1.1</span>
+            </li>
+            <li data-node-id="1.1.2">
+              <a href="#icon" class="st-tree__icon"></a>
+              <span>1.1.2</span>
+            </li>
+          </ul>
+        </li>
+        <li data-node-id="1.2">
+          <a href="#icon" class="st-tree__icon"></a>
+          <span>1.2</span>
+          <ul>
+            <li data-node-id="1.2.1">
+              <a href="#icon" class="st-tree__icon"></a>
+              <span>1.2.1</span>
+            </li>
+            <li data-node-id="1.2.2">
+              <a href="#icon" class="st-tree__icon"></a>
+              <span>1.2.2</span>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li data-node-id="2">
+      <a href="#icon" class="st-tree__icon"></a>
+      <span>2</span>
+      <ul>
+        <li data-node-id="2.1">
+          <a href="#icon" class="st-tree__icon"></a>
+          <span>2.1</span>
+        </li>
+        <li data-node-id="2.2">
+          <a href="#icon" class="st-tree__icon"></a>
+          <span>2.2</span>
+        </li>
+      </ul>
+    </li>
+    <li data-node-id="3">
+      <a href="#icon" class="st-tree__icon"></a>
+      <span>3</span>
+      <ul>
+        <li data-node-id="3.1">
+          <a href="#icon" class="st-tree__icon"></a>
+          <span>3.1</span>
+        </li>
+        <li data-node-id="3.2">
+          <a href="#icon" class="st-tree__icon"></a>
+          <span>3.2</span>
+        </li>
+      </ul>
+    </li>
+  </ul>
+  <script>
+    let element = document.querySelector('[data-controller="tree"]');
+    document.querySelector('button[value="expand"]').addEventListener('click', e => {
+      element.dispatchEvent(new CustomEvent('tree:expand'));
+    });
+    document.querySelector('button[value="collapse"]').addEventListener('click', e => {
+      element.dispatchEvent(new CustomEvent('tree:collapse'));
+    });
+  </script>
+</body>
+</html>

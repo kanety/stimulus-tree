@@ -29,16 +29,12 @@ describe('index', () => {
   });
 
   it('expands and collapses', () => {
-    let tree = document.querySelector('[data-controller="tree"]');
-    let node1 = document.querySelector('[data-node-id="1"]');
-    let node2 = document.querySelector('[data-node-id="1.1"]');
+    $('[data-controller="tree"]').dispatchEvent(new CustomEvent('tree:collapse'));
+    expect($('[data-node-id="1"]').matches('.st-tree__node--closed')).toEqual(true);
+    expect($('[data-node-id="1.1"]').matches('.st-tree__node--closed')).toEqual(true);
 
-    tree.dispatchEvent(new CustomEvent('tree:collapse'));
-    expect(node1.matches('.st-tree__node--closed')).toEqual(true);
-    expect(node2.matches('.st-tree__node--closed')).toEqual(true);
-
-    tree.dispatchEvent(new CustomEvent('tree:expand'));
-    expect(node1.matches('.st-tree__node--closed')).toEqual(false);
-    expect(node2.matches('.st-tree__node--closed')).toEqual(false);
+    $('[data-controller="tree"]').dispatchEvent(new CustomEvent('tree:expand'));
+    expect($('[data-node-id="1"]').matches('.st-tree__node--closed')).toEqual(false);
+    expect($('[data-node-id="1.1"]').matches('.st-tree__node--closed')).toEqual(false);
   });
 });

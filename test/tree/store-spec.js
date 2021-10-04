@@ -29,14 +29,12 @@ describe('index', () => {
   });
 
   it('saves states', () => {
-    let icon = document.querySelector('[data-node-id="1"] > a');
-    icon.click();
-    expect(icon.parentNode.matches('.st-tree__node--closed')).toEqual(true);
+    $('[data-node-id="1"] > a').click();
+    expect($('[data-node-id="1"]').matches('.st-tree__node--closed')).toEqual(true);
   });
 
   it('loads states', () => {
-    let icon = document.querySelector('[data-node-id="1"] > a');
-    icon.click();
-    expect(icon.parentNode.matches('.st-tree__node--closed')).toEqual(false);
+    $('[data-node-id="1"] > a').click();
+    expect($('[data-node-id="1"]').matches('.st-tree__node--closed')).toEqual(false);
   });
 });

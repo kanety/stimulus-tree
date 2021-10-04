@@ -9,6 +9,9 @@ module.exports = {
   moduleNameMapper: {
     "\\.(css|scss|less)$": "identity-obj-proxy"
   },
+  setupFiles: [
+    "<rootDir>/test/setup.js"
+  ],
   testMatch: [
     "**/*spec.js"
   ],

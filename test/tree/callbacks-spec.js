@@ -30,20 +30,18 @@ describe('callbacks', () => {
 
   let message;
   beforeEach(() => {
-    let tree = document.querySelector('[data-controller="tree"]');
-    tree.addEventListener('tree:opened', (e) => {
+    $('[data-controller="tree"]').addEventListener('tree:opened', (e) => {
       message = 'opened: ' + e.detail.node.getAttribute('data-node-id');
     });
-    tree.addEventListener('tree:closed', (e) => {
+    $('[data-controller="tree"]').addEventListener('tree:closed', (e) => {
       message = 'closed: ' + e.detail.node.getAttribute('data-node-id');
     });
   });
 
   it('runs callbacks', () => {
-    let icon = document.querySelector('[data-node-id="1.1"] > a');
-    icon.click();
+    $('[data-node-id="1.1"] > a').click();
     expect(message).toEqual('closed: 1.1');
-    icon.click();
+    $('[data-node-id="1.1"] > a').click();
     expect(message).toEqual('opened: 1.1');
   });
 });
