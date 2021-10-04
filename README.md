@@ -24,6 +24,12 @@ const application = Application.start();
 application.register('tree', TreeController);
 ```
 
+Import css:
+
+```css
+@import '@kanety/stimulus-tree';
+```
+
 Build html as follows:
 
 ```html
