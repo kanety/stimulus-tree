@@ -14,11 +14,11 @@ export default class extends Controller {
   ];
 
   get nodes() {
-    return Array.from(this.element.querySelectorAll('li'));
+    return this.scope.findAllElements('li');
   }
 
   get openedNodes() {
-    return Array.from(this.element.querySelectorAll('li:not(.st-tree__node--closed)'));
+    return this.scope.findAllElements('li:not(.st-tree__node--closed)');
   }
 
   get visibleNodes() {
@@ -36,7 +36,7 @@ export default class extends Controller {
 
   init() {
     this.nodes.forEach(node => {
-      if (!node.querySelector('ul')) {
+      if (!this.hasChildren(node)) {
         node.classList.add('st-tree__node--leaf', 'st-tree__node--closed');
       }
     });
@@ -98,7 +98,11 @@ export default class extends Controller {
   hide(node) {
     node.classList.add('st-tree__node--closed');
   }
-  
+
+  hasChildren(node) {
+    return Array.from(node.children).some(child => child.matches('ul'));
+  }
+
   loadStates() {
     if (!this.storeKeyValue) return;
 
