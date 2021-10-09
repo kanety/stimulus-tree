@@ -1,5 +1,6 @@
 import { Controller } from '@hotwired/stimulus';
 import '@kanety/stimulus-static-actions';
+import Store from './store';
 import Keyboard from './keyboard';
 import './index.scss';
 
@@ -24,28 +25,15 @@ export default class extends Controller {
   
   connect() {
     this.init();
-    this.load();
     this.keyboard = new Keyboard(this);
+    this.store = new Store(this);
+    this.store.load();
   }
 
   init() {
     this.nodes.forEach(node => {
       if (!this.hasChildren(node)) {
         node.classList.add('st-tree__node--leaf', 'st-tree__node--closed');
-      }
-    });
-  }
-
-  load() {
-    let ids = this.loadStates();
-    if (!ids) return;
-
-    let idSet = new Set(ids);
-    this.nodes.forEach(node => {
-      if (idSet.has(node.getAttribute('data-node-id'))) {
-        this.show(node);
-      } else {
-        this.hide(node);
       }
     });
   }
@@ -65,12 +53,12 @@ export default class extends Controller {
 
   expand(e) {
     this.nodes.forEach(node => this.show(node));
-    this.saveStates();
+    this.store.save();
   }
 
   collapse(e) {
     this.nodes.forEach(node => this.hide(node));
-    this.saveStates();
+    this.store.save();
   }
 
   keydown(e) {
@@ -79,13 +67,13 @@ export default class extends Controller {
 
   open(node) {
     this.show(node);
-    this.saveStates();
+    this.store.save();
     this.dispatch('opened', { detail: { node: node } });
   }
 
   close(node) {
     this.hide(node);
-    this.saveStates();
+    this.store.save();
     this.dispatch('closed', { detail: { node: node } });
   }
 
@@ -99,19 +87,5 @@ export default class extends Controller {
 
   hasChildren(node) {
     return Array.from(node.children).some(child => child.matches('ul'));
-  }
-
-  loadStates() {
-    if (!this.storeKeyValue) return;
-
-    let json = sessionStorage.getItem(this.storeKeyValue);
-    return json ? JSON.parse(json) : null;
-  }
-
-  saveStates() {
-    if (!this.storeKeyValue) return;
-
-    let ids = this.openedNodes.map(node => node.getAttribute('data-node-id'));
-    sessionStorage.setItem(this.storeKeyValue, JSON.stringify(ids));
   }
 }
