@@ -34,7 +34,6 @@ describe('index', () => {
   });
 
   it('loads states', () => {
-    $('[data-node-id="1"] > a').click();
-    expect($('[data-node-id="1"]').matches('.st-tree__node--closed')).toEqual(false);
+    expect($('[data-node-id="1"]').matches('.st-tree__node--closed')).toEqual(true);
   });
 });
