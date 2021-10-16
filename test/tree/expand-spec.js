@@ -1,10 +1,4 @@
-import { Application } from '@hotwired/stimulus';
-import TreeController from 'index';
-
-const application = Application.start();
-application.register('tree', TreeController);
-
-describe('index', () => {
+describe('expand', () => {
   beforeEach(() => {
     document.body.innerHTML = `
       <ul data-controller="tree">
