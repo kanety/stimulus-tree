@@ -42,12 +42,18 @@ export default class Store {
     let json = sessionStorage.getItem(key);
     try {
       return JSON.parse(json)
-    } catch {
+    } catch(error) {
+      console.error(error);
       return null;
     }
   }
 
   static save(key, value) {
-    sessionStorage.setItem(key, JSON.stringify(value));
+    try {
+      sessionStorage.setItem(key, JSON.stringify(value));
+    } catch(error) {
+      console.error(error);
+      return null;
+    }
   }
 }
