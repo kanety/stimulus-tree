@@ -87,6 +87,12 @@ element.addEventListener('tree:closed', (e) => {
 
 Expand or collapse tree nodes:
 
+```html
+<ul data-controller="tree"
+    data-action="tree:expand->tree#expand tree:collapse->tree#collapse">
+</ul>
+```
+
 ```javascript
 let element = document.querySelector('[data-controller="tree"]');
 element.dispatchEvent(new CustomEvent('tree:expand'));

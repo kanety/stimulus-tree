@@ -10,9 +10,7 @@ export default class extends Controller {
   };
   static actions = [
     ['element', 'click->toggle'],
-    ['element', 'keydown->keydown'],
-    ['element', ':expand->expand'],
-    ['element', ':collapse->collapse']
+    ['element', 'keydown->keydown']
   ];
 
   get nodes() {

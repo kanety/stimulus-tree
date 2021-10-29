@@ -1,7 +1,7 @@
 describe('expand', () => {
   beforeEach(() => {
     document.body.innerHTML = `
-      <ul data-controller="tree">
+      <ul data-controller="tree" data-action="tree:expand->tree#expand tree:collapse->tree#collapse">
         <li data-node-id="1">
           <a href="#icon"></a>
           <span>1</span>
