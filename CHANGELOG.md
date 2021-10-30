@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 1.0.3
+
+* Exclude expand and collapse from default actions.
+* Fix to catch storage errors.
+
 ## 1.0.2
 
 * Fix query scope.
