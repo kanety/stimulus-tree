@@ -3,16 +3,8 @@ export default class Keyboard {
     this.controller = controller;
   }
 
-  get nodes() {
-    return this.controller.nodes;
-  }
-
-  get visibleNodes() {
-    return this.nodes.filter(node => !node.parentNode.closest('li.st-tree__node--closed'));
-  }
-
   get visibleIcons() {
-    return this.visibleNodes.filter(node => !node.matches('.st-tree__node--leaf')).map(node => this.findIcon(node));
+    return this.controller.visibleNodes.filter(node => !node.matches('.st-tree__node--leaf')).map(node => this.controller.findIcon(node));
   }
 
   keydown(e) {
@@ -42,19 +34,19 @@ export default class Keyboard {
 
   moveUp(node) {
     let icons = this.visibleIcons;
-    let index = icons.indexOf(this.findIcon(node)) - 1;
+    let index = icons.indexOf(this.controller.findIcon(node)) - 1;
     if (index >= 0 && icons[index]) icons[index].focus();
   }
 
   moveDown(node) {
     let icons = this.visibleIcons;
-    let index = icons.indexOf(this.findIcon(node)) + 1;
+    let index = icons.indexOf(this.controller.findIcon(node)) + 1;
     if (index >= 0 && icons[index]) icons[index].focus();
   }
 
   moveRight(node) {
     if (!node.matches('.st-tree__node--closed')) {
-      let icon = this.findIcon(node.querySelector('ul:first-of-type > li:first-of-type'));
+      let icon = this.controller.findIcon(node.querySelector('ul:first-of-type > li:first-of-type'));
       if (icon) icon.focus();
     } else {
       this.controller.open(node);
@@ -63,14 +55,10 @@ export default class Keyboard {
 
   moveLeft(node) {
     if (node.matches('.st-tree__node--closed')) {
-      let icon = this.findIcon(node.parentNode.parentNode)
+      let icon = this.controller.findIcon(node.parentNode.parentNode)
       if (icon) icon.focus();
     } else {
       this.controller.close(node);
     }
-  }
-
-  findIcon(node) {
-    return node.querySelector('a[href="#icon"]');
   }
 }

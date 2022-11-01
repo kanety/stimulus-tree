@@ -20,7 +20,11 @@ export default class extends Controller {
   get openedNodes() {
     return this.scope.findAllElements('li:not(.st-tree__node--closed)');
   }
-  
+
+  get visibleNodes() {
+    return this.nodes.filter(node => !node.parentNode.closest('li.st-tree__node--closed'));
+  }
+
   connect() {
     this.init();
     this.keyboard = new Keyboard(this);
@@ -85,5 +89,9 @@ export default class extends Controller {
 
   hasChildren(node) {
     return Array.from(node.children).some(child => child.matches('ul'));
+  }
+
+  findIcon(node) {
+    return node.querySelector('a[href="#icon"]');
   }
 }
