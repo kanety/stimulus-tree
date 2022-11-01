@@ -20,20 +20,20 @@ export default class Keyboard {
 
     let node = e.target.parentNode;
 
-    switch (e.keyCode) {
-    case 37: // left
+    switch (e.code) {
+    case 'ArrowLeft':
       this.moveLeft(node);
       e.preventDefault();
       break;
-    case 38: // up
+    case 'ArrowUp':
       this.moveUp(node);
       e.preventDefault();
       break;
-    case 39: // right
+    case 'ArrowRight':
       this.moveRight(node);
       e.preventDefault();
       break;
-    case 40: // down
+    case 'ArrowDown':
       this.moveDown(node);
       e.preventDefault();
       break;
