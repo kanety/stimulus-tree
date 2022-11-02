@@ -4,13 +4,14 @@ export default class Keyboard {
   }
 
   get visibleIcons() {
-    return this.controller.visibleNodes.filter(node => !node.matches('.st-tree__node--leaf')).map(node => this.controller.findIcon(node));
+    let nodes = this.controller.visibleNodes.filter(node => !this.controller.isLeaf(node));
+    return nodes.map(node => this.controller.findIcon(node));
   }
 
   keydown(e) {
-    if (!e.target.matches('a[href="#icon"]')) return;
+    if (!this.controller.isIcon(e.target)) return;
 
-    let node = e.target.parentNode;
+    let node = e.target.parentElement;
 
     switch (e.code) {
     case 'ArrowLeft':
@@ -45,18 +46,24 @@ export default class Keyboard {
   }
 
   moveRight(node) {
-    if (!node.matches('.st-tree__node--closed')) {
-      let icon = this.controller.findIcon(node.querySelector('ul:first-of-type > li:first-of-type'));
-      if (icon) icon.focus();
+    if (this.controller.isOpened(node)) {
+      let child = this.controller.children(node)[0];
+      if (child) {
+        let icon = this.controller.findIcon(child);
+        if (icon) icon.focus();
+      }
     } else {
       this.controller.open(node);
     }
   }
 
   moveLeft(node) {
-    if (node.matches('.st-tree__node--closed')) {
-      let icon = this.controller.findIcon(node.parentNode.parentNode)
-      if (icon) icon.focus();
+    if (!this.controller.isOpened(node)) {
+      let parent = this.controller.parent(node);
+      if (parent) {
+        let icon = this.controller.findIcon(parent)
+        if (icon) icon.focus();
+      }
     } else {
       this.controller.close(node);
     }

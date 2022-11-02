@@ -13,16 +13,23 @@ export default class extends Controller {
     ['element', 'keydown->keydown']
   ];
 
+  get roots() {
+    return Array.from(this.element.children);
+  }
+
   get nodes() {
     return this.scope.findAllElements('li');
   }
 
   get openedNodes() {
-    return this.scope.findAllElements('li:not(.st-tree__node--closed)');
+    return this.nodes.filter(node => this.isOpened(node));
   }
 
   get visibleNodes() {
-    return this.nodes.filter(node => !node.parentNode.closest('li.st-tree__node--closed'));
+    return this.nodes.filter(node => {
+      let ancestors = this.ancestors(node).slice(0, -1);
+      return ancestors.every(a => this.isOpened(a));
+    });
   }
 
   connect() {
@@ -34,20 +41,21 @@ export default class extends Controller {
 
   init() {
     this.nodes.forEach(node => {
-      if (!this.hasChildren(node)) {
+      if (!this.hasChildList(node)) {
         node.classList.add('st-tree__node--leaf', 'st-tree__node--closed');
       }
     });
   }
 
   toggle(e) {
-    if (!e.target.matches('a[href="#icon"]')) return;
+    if (!this.isIcon(e.target)) return;
 
-    let node = e.target.parentNode;
-    if (node.matches('.st-tree__node--closed')) {
-      this.open(node);
-    } else {
+    let node = e.target.parentElement;
+
+    if (this.isOpened(node)) {
       this.close(node);
+    } else {
+      this.open(node);
     }
 
     e.preventDefault();
@@ -87,11 +95,42 @@ export default class extends Controller {
     node.classList.add('st-tree__node--closed');
   }
 
-  hasChildren(node) {
+  parent(node) {
+    let parent = node.parentElement.parentElement;
+    return parent && parent.matches('li') ? parent : null;
+  }
+
+  children(node) {
+    let ul = Array.from(node.children).find(child => child.matches('ul'));
+    return ul ? Array.from(ul.children) : [];
+  }
+
+  ancestors(node) {
+    let parent = this.parent(node);
+    return parent ? this.ancestors(parent).concat([node]) : [node];
+  }
+
+  descendants(node) {
+    return [node].concat(this.children(node).flatMap(child => this.descendants(child)));
+  }
+
+  hasChildList(node) {
     return Array.from(node.children).some(child => child.matches('ul'));
+  }
+
+  isOpened(node) {
+    return !node.matches('.st-tree__node--closed');
+  }
+
+  isLeaf(node) {
+    return node.matches('.st-tree__node--leaf');
   }
 
   findIcon(node) {
     return node.querySelector('a[href="#icon"]');
+  }
+
+  isIcon(elem) {
+    return elem.matches('a[href="#icon"]');
   }
 }
