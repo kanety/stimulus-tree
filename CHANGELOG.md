@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.1.1
+
+* Add X-Requested-With header to fetch request.
+
 ## 1.1.0
 
 * Add lazy load feature.

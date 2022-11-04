@@ -1,7 +1,7 @@
 {
   "name": "@kanety/stimulus-tree",
   "description": "A stimulus controller for simple tree ui",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "source": "src/index.js",
   "main": "./dist/index.js",
   "umd:main": "./dist/index.umd.js",
