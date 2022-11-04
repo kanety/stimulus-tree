@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 1.1.0
+
+* Add lazy load feature.
+* Add some methods to controller.
+* Refactoring.
+
 ## 1.0.3
 
 * Exclude expand and collapse from default actions.

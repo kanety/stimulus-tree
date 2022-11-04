@@ -99,6 +99,36 @@ element.dispatchEvent(new CustomEvent('tree:expand'));
 element.dispatchEvent(new CustomEvent('tree:collapse'));
 ```
 
+### Lazy load
+
+Set URL for getting new HTML to each node using `data-node-lazy` attribute:
+
+```html
+<ul class="st-tree" data-controller="tree">
+  <li class="st-tree__node--closed" data-node-id="1" data-node-lazy="URL">
+    <a href="#icon" class="st-tree__icon"></a>
+    <span>text of 1</span>
+  </li>
+</ul>
+```
+
+The new HTML should contains exapnded node like following example:
+
+```html
+<ul class="st-tree" data-controller="tree">
+  <li class="st-tree__node--closed" data-node-id="1" data-node-lazy="URL">
+    <a href="#icon" class="st-tree__icon"></a>
+    <span>text of 1</span>
+    <ul>
+      <li data-node-id="1.1">
+        <a href="#icon" class="st-tree__icon"></a>
+        <span>text of 1.1</span>
+      </li>
+    </ul>
+  </li>
+</ul>
+```
+
 ## License
 
 The library is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
