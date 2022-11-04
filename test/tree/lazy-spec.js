@@ -8,17 +8,16 @@ describe('lazy', () => {
           <a href="#icon"></a>
           <span>1</span>
         </li>
-        <li class="st-tree__node--closed" data-node-id="2" data-node-lazy="./lazy.2.html">
-          <a href="#icon"></a>
-          <span>2</span>
-        </li>
       </ul>
     `;
   });
 
   beforeEach(() => {
     fetch.resetMocks();
-    fetch.mockResponses([fs.readFileSync('examples/lazy.1.html', 'utf-8'), { status: 200 }]);
+    fetch.mockResponses(
+      [fs.readFileSync('test/fixtures/lazy.1.html', 'utf-8'), { status: 200 }],
+      [fs.readFileSync('test/fixtures/lazy.1.1.html', 'utf-8'), { status: 200 }]
+    );
   });
 
   beforeEach((done) => {
@@ -30,5 +29,6 @@ describe('lazy', () => {
 
   it('loads nodes lazy', () => {
     expect($('[data-node-id="1.1"]').matches('li')).toEqual(true);
+    expect($('[data-node-id="1.1.1"]').matches('li')).toEqual(true);
   });
 });

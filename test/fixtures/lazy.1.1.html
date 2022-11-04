@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head></head>
+<body>
+  <h1>Lazy load</h1>
+  <ul class="st-tree" data-controller="tree">
+    <li class="st-tree__node--closed" data-node-id="1" data-node-lazy="./lazy.1.html">
+      <a href="#icon" class="st-tree__icon"></a>
+      <span>1</span>
+      <ul>
+        <li data-node-id="1.1" data-node-lazy="./lazy.1.1.html">
+          <a href="#icon" class="st-tree__icon"></a>
+          <span>1.1</span>
+          <ul>
+            <li data-node-id="1.1.1">
+              <a href="#icon" class="st-tree__icon"></a>
+              <span>1.1.1</span>
+            </li>
+            <li data-node-id="1.1.2">
+              <a href="#icon" class="st-tree__icon"></a>
+              <span>1.1.2</span>
+              <ul></ul>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</body>
+</html>
