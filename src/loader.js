@@ -18,7 +18,11 @@ export default class Loader {
     node.setAttribute('aria-busy', 'true');
 
     try {
-      let response = await fetch(node.getAttribute('data-node-lazy'));
+      let response = await fetch(node.getAttribute('data-node-lazy'), {
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest'
+        }
+      });
       if (response.ok) {
         let text = await response.text();
         this.loaded(node, text);
