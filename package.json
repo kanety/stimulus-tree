@@ -37,6 +37,7 @@
     "babel-jest": "^27.1.0",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^27.1.0",
+    "jest-fetch-mock": "^3.0.3",
     "microbundle": "^0.13.3",
     "postcss": "^8.3.7",
     "sass": "^1.42.1"

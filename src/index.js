@@ -2,6 +2,7 @@ import { Controller } from '@hotwired/stimulus';
 import '@kanety/stimulus-static-actions';
 import Store from './store';
 import Keyboard from './keyboard';
+import Loader from './loader';
 import './index.scss';
 
 export default class extends Controller {
@@ -26,10 +27,7 @@ export default class extends Controller {
   }
 
   get visibleNodes() {
-    return this.nodes.filter(node => {
-      let ancestors = this.ancestors(node).slice(0, -1);
-      return ancestors.every(a => this.isOpened(a));
-    });
+    return this.nodes.filter(node => this.ancestors(node).slice(0, -1).every(a => this.isOpened(a)));
   }
 
   connect() {
@@ -37,11 +35,17 @@ export default class extends Controller {
     this.keyboard = new Keyboard(this);
     this.store = new Store(this);
     this.store.load();
+    this.loader = new Loader(this);
+    this.loader.init();
   }
 
   init() {
-    this.nodes.forEach(node => {
-      if (!this.hasChildList(node)) {
+    this.roots.forEach(root => this.initDescs(root));
+  }
+
+  initDescs(origin) {
+    this.descendants(origin).forEach(node => {
+      if (this.children(node).length == 0 && !this.isLazy(node)) {
         node.classList.add('st-tree__node--leaf', 'st-tree__node--closed');
       }
     });
@@ -51,7 +55,6 @@ export default class extends Controller {
     if (!this.isIcon(e.target)) return;
 
     let node = e.target.parentElement;
-
     if (this.isOpened(node)) {
       this.close(node);
     } else {
@@ -62,13 +65,11 @@ export default class extends Controller {
   }
 
   expand(e) {
-    this.nodes.forEach(node => this.show(node));
-    this.store.save();
+    this.nodes.filter(node => !this.isOpened(node)).forEach(node => this.open(node));
   }
 
   collapse(e) {
-    this.nodes.forEach(node => this.hide(node));
-    this.store.save();
+    this.nodes.filter(node => this.isOpened(node)).forEach(node => this.close(node));
   }
 
   keydown(e) {
@@ -79,6 +80,10 @@ export default class extends Controller {
     this.show(node);
     this.store.save();
     this.dispatch('opened', { detail: { node: node } });
+
+    if (this.isLazy(node) && !this.isLazyLoaded(node)) {
+      this.loader.load(node);
+    }
   }
 
   close(node) {
@@ -114,10 +119,6 @@ export default class extends Controller {
     return [node].concat(this.children(node).flatMap(child => this.descendants(child)));
   }
 
-  hasChildList(node) {
-    return Array.from(node.children).some(child => child.matches('ul'));
-  }
-
   isOpened(node) {
     return !node.matches('.st-tree__node--closed');
   }
@@ -132,5 +133,17 @@ export default class extends Controller {
 
   isIcon(elem) {
     return elem.matches('a[href="#icon"]');
+  }
+
+  isLazy(node) {
+    return node.matches('[data-node-lazy]');
+  }
+
+  isLazyLoaded(node) {
+    return node.matches('[data-node-lazy-loaded]') || this.children(node).length != 0;
+  }
+
+  setLazyLoaded(node) {
+    node.setAttribute('data-node-lazy-loaded', 'true');
   }
 }

@@ -27,4 +27,7 @@
   li.st-tree__node--leaf > .st-tree__icon {
     visibility: hidden;
   }
+  li[aria-busy="true"] > *:not(a[href="#icon"]) {
+    opacity: .5;
+  }
 }
