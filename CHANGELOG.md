@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 1.2.0
+
+* Move dependencies to peerDependencies.
+* Change file extension to `.mjs` for module.
+
 ## 1.1.1
 
 * Add X-Requested-With header to fetch request.
